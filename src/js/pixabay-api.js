@@ -18,4 +18,7 @@ const safesearch = 'true';
             }
         return response.json()
         }) 
+        .catch(error => {
+        alert('Incorrect request!')
+    })
 }
