@@ -3,8 +3,8 @@ import "izitoast/dist/css/iziToast.min.css";
 import { showLoader } from "../main.js";
 import { hideLoader } from "../main.js";
 
-// import SimpleLightbox from "simplelightbox";
-// import "simplelightbox/dist/simple-lightbox.min.css";
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 import { getImages } from "./pixabay-api.js";
 
@@ -26,10 +26,10 @@ export function createMarkup() {
 			
     galerry.innerHTML = images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
         return `<li class="gallery-item">
-	<a class="gallery-link" href="${webformatURL}">
+	<a class="gallery-link" href="${largeImageURL}">
 		<img 
 			class="images" 
-			src="${largeImageURL}"
+			src="${webformatURL}"
 			alt="${tags}"
 			/>
 	
@@ -44,9 +44,14 @@ export function createMarkup() {
 
 		})
 		.then(data => {
+			lightbox.refresh();
+			hideLoader();
 			
-			hideLoader()
             return data
         })
 }
 
+const lightbox = new SimpleLightbox('.gallery a', {
+captionsData: 'alt',
+captionDelay: 250,
+        }) 
